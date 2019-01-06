@@ -1,0 +1,8 @@
+{
+  "name": "CodeBreaker2018-Task7",
+  "private": true,
+  "version": "0.1.0",
+  "devDependencies": {
+    "solidity-coverage": "^0.5.11"
+  }
+}
