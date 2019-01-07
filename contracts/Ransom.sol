@@ -15,7 +15,7 @@ contract Ransom {
     uint victimId;          //!< The unique ID of the victim
     string encKey;          //!< The key (encrypted) being held ransom (needed to decrypt victim's files)        
     address victimAddr;     //!< The account address belonging to the victim
-    uint constant RANSOMAMOUNT = 100 ether; //!< The ransom amount the victim must pay
+    uint constant RANSOMAMOUNT = 2 ether; //!< The ransom amount the victim must pay
     address escrowAddr;     //!< The address of the Escrow contract associated with this ransom
     address registryAddr;   //!< The address of the Registry contract
     bool authenticated;     //!< Indicates whether this contract has been authenticated with the Escrow
