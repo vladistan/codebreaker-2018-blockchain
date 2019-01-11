@@ -27,7 +27,7 @@ contract("Simple Straight forward transaction", async (accounts) => {
     let victim = accounts[2];   // infected person
 
     let victimId = 0x5500;   // Victim ID
-    let ransomAmount = tw('2', 'ether'); // Ransom Amount
+    let ransomAmount = tw('0', 'wei'); // Ransom Amount
 
     let ttlBalBefore = 0;
 
