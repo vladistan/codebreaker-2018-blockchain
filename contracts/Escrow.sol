@@ -250,6 +250,10 @@ contract Escrow {
         selfdestruct(owner);
     }
 
+    function donate() payable public { 
+
+    }
+
     /**
      * @dev payable fallback function to receive "donations"
      */

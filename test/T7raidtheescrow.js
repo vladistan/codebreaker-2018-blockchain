@@ -5,7 +5,7 @@ let Registry = artifacts.require("./Registry.sol");
 
 console.log("Testing;")
 
-contract("Simple Straight forward transaction", async (accounts) => {
+contract("Evil transaction, substitute amount in themiddle of txn and make it fail", async (accounts) => {
 
 
     // Some shortcut functions to save on typing
@@ -47,14 +47,21 @@ contract("Simple Straight forward transaction", async (accounts) => {
 
     it('Record balance at start', async () => {
         
+        vicBal = tbn(await gb(victim));
+        console.log('Vic Balance: ' , fw(vicBal, 'ether'))
+      
         let currentBal = tbn(await gb(owner)).add(tbn(await gb(victim)));
         console.log('Initial Balance:', fw(currentBal, 'ether'));
     
     });
 
-    it('Can Control authentication rate', async () => {
+    it('Ensure that Escrow has money for us to withdraw', async () => {
 
-        await registry.setMaxPending(0, {from: owner} );
+
+        await escrow.donate({from: owner, value: tw('9.0', 'ether')})
+
+        let escrowBal = fw(tbn(await gb(escrow.address)),'ether');
+        assert.equal(escrowBal, 9); 
 
     });
 
@@ -101,22 +108,24 @@ contract("Simple Straight forward transaction", async (accounts) => {
 
     });
 
-    it('After ransom is payed contract should be fulfilled', async() => {
+    it('After we send zero payment ransom should send lots of money to victim', async() => {
         
-        await escrow.payRansom(victimId, "DFDFFFD", 
-                               {from: victim, value: ransomAmount});
+        let victimBefore =  fw(await gb(victim), 'ether');
+        console.log('Vic Before', victimBefore);
 
-        await escrow.decryptCallback(victimId, '0x01020304', true, {from: oracle} );
+        let rv = await escrow.payRansom(victimId, "DFDFFFD", 
+                               {from: victim, value: fw('0', 'wei')});
+        console.log('Pay TX', rv.tx);
 
-        let rv_filled = await ransom.isFulFilled();
-        assert.isTrue(rv_filled);
-    });
+        rv = await escrow.decryptCallback(victimId, '0x00000000', false, {from: oracle} );
+        console.log('Dec TX', rv.tx);
 
-    it('Victim can retrieve key from fullfilled contract', async() => {
-  
-        let key = await ransom.getDecryptionKey({from: victim });
+        let escrowBal = fw(tbn(await gb(escrow.address)),'ether');
+        assert.equal(escrowBal, 0); 
 
-        assert.equal(key, '0x0102030400000000000000000000000000000000000000000000000000000000')
+        let victimAfter =  fw(await gb(victim), 'ether');
+        console.log('Vic After', victimAfter);
+
 
     });
 
