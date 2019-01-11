@@ -1,5 +1,5 @@
 
-let Ransom = artifacts.require("./Ransom.sol");
+let Ransom = artifacts.require("./ZeroRansom.sol");
 let Escrow = artifacts.require("./Escrow.sol");
 let Registry = artifacts.require("./Registry.sol");
 
